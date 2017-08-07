@@ -2,15 +2,23 @@ package tw.brad.android.games.mysd;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 public class MainActivity extends AppCompatActivity {
     private boolean isPermissionOK;
+    private File sdroot, approot;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +39,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init(){
-        if (!isPermissionOK) finish();
-        //Log.i("brad", "start");
+        if (!isPermissionOK) {
+            finish();
+        }else{
+            go();
+        }
+    }
+
+    private void go(){
+        sdroot = Environment.getExternalStorageDirectory();
+        approot = new File(sdroot, "Android/data/" + getPackageName() + "/");
+        if (!approot.exists()){
+            approot.mkdirs();
+        }
+
+    }
+
+    public void test1(View view){
+        File file1 = new File(sdroot, "file1");
+        File file2 = new File(approot, "file2");
+        try {
+            FileOutputStream fout1 = new FileOutputStream(file1);
+            FileOutputStream fout2 = new FileOutputStream(file2);
+            fout1.flush();fout2.flush();
+            fout1.close();fout2.close();
+            Toast.makeText(this,"OK", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this,e.toString(), Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
+    public void test2(View view){
+
     }
 
     @Override
