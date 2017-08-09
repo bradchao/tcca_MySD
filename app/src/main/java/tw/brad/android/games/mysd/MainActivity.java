@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
@@ -61,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
         try {
             FileOutputStream fout1 = new FileOutputStream(file1);
             FileOutputStream fout2 = new FileOutputStream(file2);
+
+            fout1.write("I am File1".getBytes());
+            fout2.write("I am File2".getBytes());
+
             fout1.flush();fout2.flush();
             fout1.close();fout2.close();
             Toast.makeText(this,"OK", Toast.LENGTH_SHORT).show();
@@ -71,6 +76,27 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void test2(View view){
+        File file1 = new File(sdroot, "file1");
+        File file2 = new File(approot, "file2");
+
+        try {
+            FileInputStream fin1 = new FileInputStream(file1);
+            FileInputStream fin2 = new FileInputStream(file2);
+
+            int temp1; StringBuffer sb = new StringBuffer();
+            while ( (temp1 = fin1.read()) != -1){
+                sb.append((char)temp1);
+            }
+
+            fin1.close();
+            fin2.close();
+
+            Toast.makeText(this, sb.toString(), Toast.LENGTH_SHORT).show();
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
