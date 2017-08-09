@@ -119,18 +119,27 @@ public class MainActivity extends AppCompatActivity {
         values.put("tel","123");
         values.put("birthday","1999-01-02");
         db.insert("cust", null, values);
+        test6(null);
     }
     public void test4(View view){
-
+        // delete from cust where _id = 2 and cname = 'brad'
+        db.delete("cust","_id = ? and cname = ?", new String[]{"2","brad"} );
+        test6(null);
     }
     public void test5(View view){
-
+        // update cust set cname='peter', tel="321" where _id=4
+        ContentValues values = new ContentValues();
+        values.put("cname","peter");
+        values.put("tel","321");
+        db.update("cust", values, "_id = ?", new String[]{"4"});
+        test6(null);
     }
     public void test6(View view){
         // select * from cust
         Cursor cursor = db.query("cust",null, null,null,null,null,null);
 
         //int count = cursor.getCount();
+        tv.setText("");
         while (cursor.moveToNext()){
             String id = cursor.getString(0);
             String cname = cursor.getString(1);
