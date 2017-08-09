@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MyDBHelper extends SQLiteOpenHelper {
     private final String createTable =
-            "create table cust (_id integer,cname text,tel text,birthday date)";
+            "create table cust (_id integer primary key autoincrement,cname text,tel text,birthday date)";
     public MyDBHelper(Context context, String name,
                       SQLiteDatabase.CursorFactory factory,
                       int version) {
