@@ -2,6 +2,8 @@ package tw.brad.android.games.mysd;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -20,6 +22,10 @@ import java.io.FileOutputStream;
 public class MainActivity extends AppCompatActivity {
     private boolean isPermissionOK;
     private File sdroot, approot;
+    private MyDBHelper dbHelper;
+    private SQLiteDatabase db;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
         if (!approot.exists()){
             approot.mkdirs();
         }
+
+        dbHelper = new MyDBHelper(this, "brad", null, 1);
+        db = dbHelper.getReadableDatabase();
 
     }
 
@@ -110,7 +119,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void test6(){
-
+        // select * from cust
+        Cursor cursor = db.query("cust",null, null,null,null,null,null);
     }
 
     @Override
