@@ -1,6 +1,7 @@
 package tw.brad.android.games.mysd;
 
 import android.Manifest;
+import android.content.ContentValues;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private File sdroot, approot;
     private MyDBHelper dbHelper;
     private SQLiteDatabase db;
-
+    private TextView tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void go(){
+        tv = (TextView)findViewById(R.id.tv);
+
         sdroot = Environment.getExternalStorageDirectory();
         approot = new File(sdroot, "Android/data/" + getPackageName() + "/");
         if (!approot.exists()){
@@ -109,18 +113,34 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void test3(){
+    public void test3(View view){
+        ContentValues values = new ContentValues();
+        values.put("cname","brad2");
+        values.put("tel","123");
+        values.put("birthday","1999-01-02");
+        db.insert("cust", null, values);
+    }
+    public void test4(View view){
 
     }
-    public void test4(){
+    public void test5(View view){
 
     }
-    public void test5(){
-
-    }
-    public void test6(){
+    public void test6(View view){
         // select * from cust
         Cursor cursor = db.query("cust",null, null,null,null,null,null);
+
+        //int count = cursor.getCount();
+        while (cursor.moveToNext()){
+            String id = cursor.getString(0);
+            String cname = cursor.getString(1);
+            String tel = cursor.getString(2);
+            String birthday = cursor.getString(3);
+            tv.append(id+":"+cname+":"+tel+":"+birthday+"\n");
+        }
+
+        cursor.close();
+
     }
 
     @Override
